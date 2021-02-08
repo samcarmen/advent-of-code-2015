@@ -41,9 +41,9 @@ def check_repeat_between_character(string):
         if string[i] == string[i+2]:
             return True   
 
-if __name__ == "__main__":    
+if __name__ == "__main__":
     nice_string = 0
-    with open('D5_Input.txt') as data: 
+    with open('./input/5_Input.txt') as data: 
         for line in data:
             string = line.strip()
 
