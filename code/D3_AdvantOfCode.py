@@ -1,5 +1,5 @@
 directions = []
-with open('./input/input_d3.txt') as data:
+with open('.//input//input_d3.txt') as data:
     for line in data:
         for char in line:
             directions.append(char)

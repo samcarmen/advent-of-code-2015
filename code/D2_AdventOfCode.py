@@ -9,7 +9,7 @@ with open('./input/D2_Input.txt') as file_input:
         total += subtotal
 
 ####### Ribbon #######
-with open('./input/D2_Input.txt') as file_input:
+with open('.//input//D2_Input.txt') as file_input:
     total = 0
     for each in file_input:
         each = each.rstrip().split('x')

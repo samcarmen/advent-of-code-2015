@@ -43,7 +43,7 @@ def check_repeat_between_character(string):
 
 if __name__ == "__main__":
     nice_string = 0
-    with open('./input/5_Input.txt') as data: 
+    with open('.//input//D5_Input.txt') as data: 
         for line in data:
             string = line.strip()
 
