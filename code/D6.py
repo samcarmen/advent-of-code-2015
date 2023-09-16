@@ -79,4 +79,4 @@ def main(instructions):
     return sum(sum(row) for row in grid)
 
 
-print(main([]))  # Expected output: 1001996
+print(main([]))
