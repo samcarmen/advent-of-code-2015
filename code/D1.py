@@ -22,10 +22,10 @@ def find_basement_entry(instructions: str) -> int:
 
 
 if __name__ == "__main__":
-    # First part
     with open("./input/D1.txt", "r") as file:
         instructions = file.readline().strip()
 
+    # First part
     floor = find_floor(instructions)
     print(f"Santa is going to floor: {floor}")
 
