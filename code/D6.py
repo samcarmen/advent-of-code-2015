@@ -1,82 +1,33 @@
-def parse_instruction(instruction):
-    """Parses the instruction and returns the action and coordinates."""
-    if instruction.startswith("turn on"):
-        action = "on"
-        coords = instruction[8:].split(" through ")
-    elif instruction.startswith("turn off"):
-        action = "off"
-        coords = instruction[9:].split(" through ")
-    elif instruction.startswith("toggle"):
-        action = "toggle"
-        coords = instruction[7:].split(" through ")
-    else:
-        raise ValueError("Invalid instruction")
-
-    start_x, start_y = map(int, coords[0].split(","))
-    end_x, end_y = map(int, coords[1].split(","))
-
-    return action, start_x, start_y, end_x, end_y
-
-
-def execute_instruction(grid, instruction):
-    """Executes the instruction on the given grid."""
-    action, start_x, start_y, end_x, end_y = parse_instruction(instruction)
-
-    for x in range(start_x, end_x + 1):
-        for y in range(start_y, end_y + 1):
-            if action == "on":
-                grid[x][y] = 1
-            elif action == "off":
-                grid[x][y] = 0
-            elif action == "toggle":
-                grid[x][y] ^= 1
-
-
-def adjust_lights_brightness(grid, instructions):
-    for instruction in instructions:
-        action, start_x, start_y, end_x, end_y = parse_instruction(instruction)
-        
+def apply_instruction(instruction):
+    parts = instruction.split()
+    if parts[0] == "turn":
+        operation = parts[1]
+        start_x, start_y = map(int, parts[2].split(","))
+        end_x, end_y = map(int, parts[4].split(","))
         for x in range(start_x, end_x + 1):
             for y in range(start_y, end_y + 1):
-                if action == "turn on":
+                if operation == "on":
                     grid[x][y] += 1
-                elif action == "turn off":
+                elif operation == "off":
                     grid[x][y] = max(0, grid[x][y] - 1)
-                elif action == "toggle":
-                    grid[x][y] += 2
-    return grid
+    elif parts[0] == "toggle":
+        start_x, start_y = map(int, parts[1].split(","))
+        end_x, end_y = map(int, parts[3].split(","))
+        for x in range(start_x, end_x + 1):
+            for y in range(start_y, end_y + 1):
+                grid[x][y] += 2
 
 
-def total_brightness_after_instructions(instructions, grid_size=1000):
-    # Initialize the grid with a brightness of 0 for each light
-    grid = [[0 for _ in range(grid_size)] for _ in range(grid_size)]
-    
-    # Adjust the lights' brightness based on the instructions
-    grid = adjust_lights_brightness(grid, instructions)
-    
-    # Calculate the total brightness
-    total_brightness = sum(sum(row) for row in grid)
-    
-    return total_brightness
-
-
-def main(instructions):
-    # Initialize a 1000x1000 grid with all lights off
+if __name__ == "__main__":
+    # Initialize a 1000x1000 grid of lights with brightness set to 0
     grid = [[0] * 1000 for _ in range(1000)]
 
-    with open('./input/D6.txt') as data:
-        for instruction in data:
-            instructions.append(instruction)
+    with open("./input/D6.txt", "r") as file:
+        instructions = file.read().splitlines()
+        for instruction in instructions:
+            apply_instruction(instruction)
 
-    print(instructions)
-    # Execute each instruction
-    for instruction in instructions:
-        execute_instruction(grid, instruction)
+    # Calculate the total brightness of all lights combined
+    total_brightness = sum(sum(row) for row in grid)
 
-    result = total_brightness_after_instructions(instructions)
-    return result
-    # Count the lights that are on
-    return sum(sum(row) for row in grid)
-
-
-print(main([]))
+    print("Total brightness of all lights combined:", total_brightness)
